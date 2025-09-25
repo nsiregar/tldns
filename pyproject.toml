@@ -1,0 +1,81 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tldns"
+version = "0.1.0"
+description = "DNS over TLS server that forwards queries to upstream DNS servers"
+readme = "README.md"
+requires-python = ">=3.13"
+authors = [{ name = "Your Name", email = "your.email@example.com" }]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: System Administrators",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Internet :: Name Service (DNS)",
+  "Topic :: System :: Networking",
+]
+dependencies = ["dnspython==2.4.2", "fire>=0.5.0"]
+
+[project.optional-dependencies]
+test = ["pytest>=7.0.0", "pytest-asyncio>=0.21.0", "pytest-cov>=4.0.0"]
+
+[project.scripts]
+tldns = "tldns.server:main"
+
+[project.urls]
+Homepage = "https://github.com/nsiregar/tldns"
+Repository = "https://github.com/nsiregar/tldns"
+Issues = "https://github.com/nsiregar/tldns/issues"
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = [
+  "-ra",
+  "--strict-markers",
+  "--strict-config",
+  "--cov=tldns",
+  "--cov-report=term-missing",
+]
+testpaths = ["tests"]
+markers = [
+  "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+  "integration: marks tests as integration tests",
+  "unit: marks tests as unit tests",
+]
+filterwarnings = ["ignore::UserWarning", "ignore::DeprecationWarning"]
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "/.venv",
+  "/.github",
+  "/.coverage",
+  "/.pytest_cache",
+  "/htmlcov",
+  "*.crt",
+  "*.key",
+  "*.pem",
+]
+
+[tool.hatch.build.targets.wheel]
+exclude = [
+  "/.venv",
+  "/.github",
+  "/.coverage",
+  "/.pytest_cache",
+  "/htmlcov",
+  "*.crt",
+  "*.key",
+  "*.pem",
+]
+
+[dependency-groups]
+dev = [
+  "pytest>=8.4.2",
+  "pytest-asyncio>=1.2.0",
+  "pytest-cov>=7.0.0",
+  "twine>=6.2.0",
+]
